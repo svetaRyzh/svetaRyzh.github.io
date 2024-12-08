@@ -1,9 +1,9 @@
 
 *{
   font-family: 'Verdana';
-  font-size: 1,1rem;
   box-sizing: border-box;
   scroll-behavior: smooth;
+  background-color: #1D1E1E;
 }
 :root{
   --main-color: #1D1E1E; 
