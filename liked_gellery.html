@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Галерея рек</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+   body {
+    font-family: Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+    background: #1D1E1E;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    }
+    .back {
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    text-decoration: none;
+    justify-content: start;
+    }
+    h2{
+        color: white;
+        font-size: 20px;
+        display: flex;
+        justify-content:center;
+    }
+    .back:hover {
+    text-decoration: underline;
+    }
+    .filter {
+    text-align: center;
+    font-size: 18px;
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    justify-content: center;
+   
+   }
+
+.filter label {
+    font-weight: bold; /* Сделаем подпись жирнее */
+    color: white;
+    font-size: 20px;
+}
+#river-filter {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    appearance: none; /* Убираем стандартные стрелки */
+}
+
+#river-filter::-ms-expand {
+    display: none; /* Скрываем стрелки для IE */
+}
+
+#river-filter::after {
+    content: '\279C'; /* Unicode символ стрелки вниз */
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Стрелка не должна мешать кликам */
+}
+
+.liked_gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px;
+    max-width: 1200px;
+    justify-content: center;
+}
+
+
+.gallery-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-item img {
+    min-width: 100px;
+    height: 200px;
+    object-fit: cover;
+    transition: opacity 0.5s ease;
+    display: block;
+}
+.gallery-item img:hover {
+    opacity: 0.8; /* При наведении уменьшаем прозрачность картинки */
+}
+
+.info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 90%;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.084), rgba(0, 0, 0, 0.8));
+    color: white;
+    padding: 0 5%;
+    text-align: left;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+.gallery-item:hover .info {
+    opacity: 1; /* Показываем при наведении */
+}
+button.favorite-btn {
+    background-color: rgba(255, 255, 255, 0.169);
+    backdrop-filter: blur(40px);
+    color: white;
+    padding: 5px 7px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.5s ease-in-out;  
+}
+
+button.favorite-btn:hover {
+    background-color: #5d5d5d;
+}
+.left_menu{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+    width: 100%;
+    gap: 20px;
+    align-items: center;
+    background-color: #5d5d5d;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+.no_images{
+    color: white;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 768px) and (max-width: 1024px){
+    .back {
+        font-size: 18px; /* Уменьшаем размер шрифта */
+    }
+
+    .to_liked {
+        font-size: 18px; /* Уменьшаем размер шрифта */
+    }
+
+    .filter {
+        font-size: 18px; /* Уменьшаем размер шрифта в фильтре */
+    }
+
+    .filter label {
+        font-size: 18px; /* Уменьшаем размер шрифта */
+    }
+
+    #river-filter {
+        font-size: 14px; /* Уменьшаем размер шрифта выпадающего списка */
+    }
+    .gallery-item img{
+        height: 180px;
+    }
+   .river-name{
+    font-size: 13px;
+   }
+}
+
+@media (max-width: 768px) {
+    .left_menu {
+        flex-direction: column; /* Вертикальное расположение на малых экранах */
+        padding: 15px 10px; /* Уменьшаем отступы */
+    }
+    .back {
+        font-size: 16px; /* Уменьшаем размер шрифта */
+    }
+
+    .to_liked {
+        font-size: 16px; /* Уменьшаем размер шрифта */
+    }
+
+    .filter {
+        font-size: 16px; /* Уменьшаем размер шрифта в фильтре */
+    }
+
+    .filter label {
+        font-size: 16px; /* Уменьшаем размер шрифта */
+    }
+
+    #river-filter {
+        font-size: 14px; /* Уменьшаем размер шрифта выпадающего списка */
+    }
+    .gallery-item img{
+        height: 140px;
+    }
+    .river-name{
+    font-size: 11px;
+   }
+   .favourite-btn{
+    font-size: 9px;
+   }
+}
+
+</style>
+<body>
+   
+    <div class="left_menu">
+    <a href="index.html" class="back">← На главную</a>
+    <!-- Фильтрация по реке -->
+    <h2>Избранное</h2>
+    <div class="filter">
+        <label for="river-filter">Фильтр: </label>
+        <select id="river-filter" onchange="filterGallery()">
+            <option value="all">Все</option>
+            <option value="Амазонка">Амазонка</option>
+            <option value="Нил">Нил</option>
+            <option value="Янцзы">Янцзы</option>
+            <option value="Миссисипи">Миссисипи</option>
+            <option value="Хуанхэ">Хуанхэ</option>
+        </select>
+    </div></div>
+    <div class="liked_gallery">
+        <!-- Фотографии будут динамически добавляться сюда через JavaScript -->
+    </div>
+
+    <script src="liked.js"></script>
+</body>
+</html>

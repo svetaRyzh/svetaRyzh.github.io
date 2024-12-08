@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Галерея рек</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+   body {
+    font-family: 'Verdana';
+    padding: 0;
+    margin: 0;
+    background: #1D1E1E;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    }
+    .back {
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    text-decoration: none;
+    justify-content: start;
+    }
+    .back:hover {
+    text-decoration: underline;
+    }
+    .filter {
+    text-align: center;
+    font-size: 18px;
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    justify-content: center;
+    margin: 0 15vw;
+   }
+
+   .to_liked{
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    text-decoration: none;
+    justify-content: end;
+    margin-right: 10px;
+   }
+   .to_liked:hover{
+    text-decoration: underline;
+   }
+
+.filter label {
+    color: white;
+    font-size: 20px;
+}
+#river-filter {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    appearance: none; 
+}
+
+#river-filter::-ms-expand {
+    display: none; 
+}
+
+/* Кастомные стрелки для селекта */
+#river-filter::after {
+    content: '\279C'; /* Unicode символ стрелки вниз */
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Стрелка не должна мешать кликам */
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1400px;
+    margin-top: 20px;
+    justify-content: center;
+}
+.gallery-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+.gallery-item:hover{
+    transform: scale(1.05);
+}
+
+.gallery-item img {
+    max-width: 100%; 
+    height: 200px;
+    object-fit: cover;
+    transition: opacity 0.5s ease;
+    display: block;
+}
+.gallery-item img:hover {
+    opacity: 0.8; /* При наведении уменьшаем прозрачность картинки */
+}
+
+.info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 90%;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.084), rgba(0, 0, 0, 0.8));
+    color: white;
+    padding: 0 5%;
+    text-align: left;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+.gallery-item:hover .info {
+    opacity: 1; /* Показываем при наведении */
+}
+button.favorite-btn {
+    /* background-color: #4CAF50; */
+    background-color: rgba(255, 255, 255, 0.169);
+    backdrop-filter: blur(40px);
+    color: white;
+    padding: 5px 7px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.5s ease-in-out; 
+}
+
+button.favorite-btn:hover {
+    background-color: #5d5d5d;
+}
+.left_menu{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: start;
+    width: 100%;
+    gap: 20px;
+    align-items: center;
+    background-color: #5d5d5d;
+    padding-top: 25px;
+    padding-bottom: 20px;
+}
+
+.modal {
+    display: none;  
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; 
+    align-items: center;    
+    background-color: rgba(0, 0, 0, 0.4); 
+    backdrop-filter: blur(15px);
+    flex-direction: row;
+    position: fixed;
+}
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 15% auto; /* Центрируем модальное окно */
+    border: 1px solid #888;
+    width: 85%; /* Или укажите фиксированную ширину */
+    max-width: 800px;
+}
+.close-modal {
+    color: #aaa;
+    font-size: 40px;
+    font-weight: bold;
+}
+.close-modal:hover,
+.close-modal:focus {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    cursor: pointer;
+}
+#modal-img {
+    max-width: 100%;
+    height: auto;
+    display: block; 
+    margin: 0 auto; 
+}
+
+#scroll-to-top {
+    position: fixed;
+    bottom: 20px; /* Расстояние от нижнего края экрана */
+    right: 20px;  /* Расстояние от правого края экрана */
+    background-color: #212121; /* Цвет фона кнопки */
+    color: white;  /* Цвет текста (стрелочки) */
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    display: none; /* Изначально скрыто */
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+}
+
+#scroll-to-top:hover {
+    background-color: #787879; /* Цвет при наведении */
+}
+
+@media (min-width: 768px) and (max-width: 1024px){
+    .back {
+        font-size: 18px; /* Уменьшаем размер шрифта */
+    }
+
+    .to_liked {
+        font-size: 18px; /* Уменьшаем размер шрифта */
+    }
+
+    .filter {
+        font-size: 18px; /* Уменьшаем размер шрифта в фильтре */
+    }
+
+    .filter label {
+        font-size: 18px; /* Уменьшаем размер шрифта */
+    }
+
+    #river-filter {
+        font-size: 14px; /* Уменьшаем размер шрифта выпадающего списка */
+    }
+    .gallery-item img{
+        height: 180px;
+    }
+   .river-name{
+    font-size: 13px;
+   }
+}
+
+@media (max-width: 768px) {
+    .left_menu {
+        flex-direction: column; /* Вертикальное расположение на малых экранах */
+        padding: 15px 10px; /* Уменьшаем отступы */
+    }
+    .back {
+        font-size: 16px; /* Уменьшаем размер шрифта */
+    }
+
+    .to_liked {
+        font-size: 16px; /* Уменьшаем размер шрифта */
+    }
+
+    .filter {
+        font-size: 16px; /* Уменьшаем размер шрифта в фильтре */
+    }
+
+    .filter label {
+        font-size: 16px; /* Уменьшаем размер шрифта */
+    }
+
+    #river-filter {
+        font-size: 14px; /* Уменьшаем размер шрифта выпадающего списка */
+    }
+    .gallery-item img{
+        height: 140px;
+    }
+    .river-name{
+    font-size: 11px;
+   }
+   .favourite-btn{
+    font-size: 9px;
+   }
+}
+
+
+
+</style>
+<body>
+<div class="left_menu">
+    <a href="index.html" class="back">← На главную</a>
+    <!-- Фильтрация по реке -->
+    <div class="filter">
+        <label for="river-filter">Фильтр: </label>
+        <select id="river-filter" onchange="filterGallery()">
+            <option value="all">Все</option>
+            <option value="Амазонка">Амазонка</option>
+            <option value="Нил">Нил</option>
+            <option value="Янцзы">Янцзы</option>
+            <option value="Миссисипи">Миссисипи</option>
+            <option value="Хуанхэ">Хуанхэ</option>
+        </select>
+    </div>
+    <a href="liked_gellery.html" class="to_liked">Избранное</a>
+</div>
+
+    <!-- Галерея -->
+    <div class="gallery">
+        <div class="gallery-item" data-river="Амазонка">
+            <img src="https://kulturologia.ru/files/u29141/2914145287.jpg" alt="Амазонка">
+            <div class="info">
+                <h3 class="river-name">Амазонка</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Амазонка">
+            <img src="https://i.pinimg.com/736x/1d/86/87/1d86875aff7ca36d5da79183f9dd2673.jpg" alt="Амазонка">
+            <div class="info">
+                <h3 class="river-name">Амазонка</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Амазонка">
+            <img src="https://i.pinimg.com/736x/eb/be/c4/ebbec4d7bff68584acf9383a2771e44d.jpg" alt="Амазонка">
+            <div class="info">
+                <h3 class="river-name">Амазонка</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Амазонка">
+            <img src="https://i.pinimg.com/736x/f3/19/5f/f3195f6ace91c32bde6eab8090b60efe.jpg" alt="Амазонка">
+            <div class="info">
+                <h3 class="river-name">Амазонка</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Амазонка">
+            <img src="https://i.pinimg.com/736x/90/06/9f/90069f645bbfa22ddd132f4f81144207.jpg" alt="Амазонка">
+            <div class="info">
+                <h3 class="river-name">Амазонка</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Нил">
+            <img src="https://интересный.com/wp-content/uploads/2019/09/interesnye-fakty-o-reke-nil-1-1024x550.jpg" alt="Нил">
+            <div class="info">
+                <h3 class="river-name">Нил</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Нил">
+            <img src="https://i.pinimg.com/736x/b2/96/65/b29665631e008bde18341eb325276062.jpg" alt="Нил">
+            <div class="info">
+                <h3 class="river-name">Нил</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+        <div class="gallery-item" data-river="Нил">
+            <img src="https://i.pinimg.com/736x/6b/82/36/6b8236e65c802117af12a7f0a0fb7f0c.jpg" alt="Нил">
+            <div class="info">
+                <h3 class="river-name">Нил</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Нил">
+            <img src="https://i.pinimg.com/736x/02/98/05/029805b9cc38b885051679f5c744d54d.jpg" alt="Нил">
+            <div class="info">
+                <h3 class="river-name">Нил</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Янцзы">
+            <img src="http://surl.li/khkmdh" alt="Янцзы">
+            <div class="info">
+                <h3 class="river-name">Янцзы</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Янцзы">
+            <img src="https://i.pinimg.com/736x/78/39/fa/7839fa3da03dec95fd30c95ddff43711.jpg" alt="Янцзы">
+            <div class="info">
+                <h3 class="river-name">Янцзы</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+        <div class="gallery-item" data-river="Янцзы">
+            <img src="https://i.pinimg.com/736x/4d/e3/c2/4de3c2a084a00b51aadf80fbe4d7c6cd.jpg" alt="Янцзы">
+            <div class="info">
+                <h3 class="river-name">Янцзы</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Янцзы">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Cn1202-03.jpg" alt="Янцзы">
+            <div class="info">
+                <h3 class="river-name">Янцзы</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Миссисипи">
+            <img src="https://s9.travelask.ru/system/images/files/001/457/212/wysiwyg_jpg/tnciowa_mississippiriver_4000x2200.jpg?1613426105" alt="Миссисипи">
+            <div class="info">
+                <h3 class="river-name">Миссисипи</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Миссисипи">
+            <img src="https://i.pinimg.com/736x/c7/e2/24/c7e224cc5bbaec11a73baaf328dab8e1.jpg" alt="Миссисипи">
+            <div class="info">
+                <h3 class="river-name">Миссисипи</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Миссисипи">
+            <img src="https://img.tourister.ru/files/9/1/2/3/2/7/1/clones/620_465_fixedwidth.jpg?t=1733529600055" alt="Миссисипи">
+            <div class="info">
+                <h3 class="river-name">Миссисипи</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Миссисипи">
+            <img src="https://ustinka.kz/upload/iblock/4af/1iz5pbovllsn64yaa3v4p43xwkbr0y62/uroven_reki_missisipi_rekordno_snizilsya.jpg" alt="Миссисипи">
+            <div class="info">
+                <h3 class="river-name">Миссисипи</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Миссисипи">
+            <img src="https://i.pinimg.com/736x/a1/0a/09/a10a09de7dc45ccdc911c25280f10317.jpg" alt="Миссисипи">
+            <div class="info">
+                <h3 class="river-name">Миссисипи</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Хуанхэ">
+            <img src="https://avatars.mds.yandex.net/get-vertis-journal/3911415/wayne_ooone-wang-QFOJyx8zMn8-unsplash.jpg_1709553033289/1098x1098" alt="Хуанхэ">
+            <div class="info">
+                <h3 class="river-name">Хуанхэ</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Хуанхэ">
+            <img src="https://i.pinimg.com/736x/ac/4d/16/ac4d164a68391ba81a622062618423bb.jpg" alt="Хуанхэ">
+            <div class="info">
+                <h3 class="river-name">Хуанхэ</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Хуанхэ">
+            <img src="https://lh4.googleusercontent.com/proxy/j9JpEq6T8JsTv7QnDeRV1U9_sCOXM_LpDrB_qGx6BO_ThLyQF3eGW7CiD5xNhPUmPoHIoZfuqV_2TmV-GL82yZNJTdp2wXBwZgtL6VuYyIsBEh4mFTY" alt="Хуанхэ">
+            <div class="info">
+                <h3 class="river-name">Хуанхэ</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Хуанхэ">
+            <img src="https://perspectum.info/wp-content/uploads/2024/08/Reiner-Ehlers_flickr.com_-1024x683.jpg" alt="Хуанхэ">
+            <div class="info">
+                <h3 class="river-name">Хуанхэ</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Хуанхэ">
+            <img src="https://i.pinimg.com/736x/9f/67/b7/9f67b70b7b76f7f42083bce941c145f7.jpg" alt="Хуанхэ">
+            <div class="info">
+                <h3 class="river-name">Хуанхэ</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Хуанхэ">
+            <img src="https://i.pinimg.com/736x/dc/34/93/dc349389f1cebaad29438f8914b77c5a.jpg" alt="Хуанхэ">
+            <div class="info">
+                <h3 class="river-name">Хуанхэ</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+
+        <div class="gallery-item" data-river="Хуанхэ">
+            <img src="https://i.pinimg.com/736x/3c/d1/81/3cd181ebcb7d6c87476a141237b0d79d.jpg" alt="Хуанхэ">
+            <div class="info">
+                <h3 class="river-name">Хуанхэ</h3>
+                <button class="favorite-btn">В избранное</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <span class="close-modal">←</span>
+        <img id="modal-img" src="" alt="Увеличенное изображение">
+    </div>
+    <!-- Кнопка стрелочки вверх -->
+    <button id="scroll-to-top" title="Наверх">
+        ↑
+    </button>
+
+
+    <script>
+    const galleryItems = document.querySelectorAll('.gallery-item img');
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-img');
+    const closeModal = document.querySelector('.close-modal');
+
+    // Открытие модального окна
+    galleryItems.forEach(item => {
+        item.addEventListener('click', () => {
+            modalImg.src = item.src;
+            modal.style.display = "flex";
+            document.body.style.overflow = 'hidden'; // Отключаем прокрутку
+        });
+    });
+
+    // Закрытие модального окна (кнопка)
+    closeModal.addEventListener('click', () => {
+        modal.style.display = "none";
+        document.body.style.overflow = ''; // Восстанавливаем прокрутку
+    });
+
+    // Закрытие модального окна при клике за его пределы
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+            document.body.style.overflow = ''; // Восстанавливаем прокрутку
+        }
+    });
+    </script>
+    <script>
+        const scrollToTopButton = document.getElementById('scroll-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) { 
+                scrollToTopButton.style.display = 'block';
+            } else {
+                scrollToTopButton.style.display = 'none';
+            }
+        });
+
+        // Прокрутка страницы наверх при клике на кнопку
+        scrollToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'  // Плавная прокрутка
+            });
+        });
+    </script>
+    <script src="liked.js"></script>
+</body>
+</html>
