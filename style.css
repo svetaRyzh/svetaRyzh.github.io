@@ -8,14 +8,13 @@
   --main-color: #1D1E1E; 
 }
 
-html{
-   background-color: #1D1E1E;
-}
+
 /*Главная страница с видео*/
 #intro {
   display: block;
   height: 100vh;
   overflow: hidden; 
+  background-color: #1D1E1E;
 }
 #intro img {
   position: absolute;
