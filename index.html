@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реки мира</title>
+    <link rel="icon" type="image/png" href="C:\Users\Svetl\Desktop\Не джава\icons8-creek-100.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body link="black">
+    <div class="head">
+        <img class="logoi" src="C:\Users\Svetl\Desktop\Не джава\icons8-creek-100.png">
+       
+
+      <div class="navi">
+        <a href="map.html">Карта</a>
+        <a href="#contact">Связаться с нами</a>
+        <a href="gellery.html">Галерея</a>
+      </div>
+
+
+      <div id="user-info" style="display: none; align-items: center;">
+        <a href="user.html" style="text-decoration: none; display: flex; align-items: center;">
+            <img id="user-photo" src="" alt="Фото пользователя" width="50" height="50" style="border-radius: 50%; margin-right: 10px;">
+            <span id="user-name"></span>
+        </a>
+    </div>
+    <a class="prompt" onclick="showCaptcha()">Войти</a></div>
+    <!-- Панель капчи -->
+<div class="overlay" onclick="hideCaptcha()"></div>
+<div class="captcha_container_all" style="display: none;">
+    <h2>Проверка пользователя</h2>
+    <div class="captcha-container">
+        <div class="captcha" id="captcha"></div>
+        <input type="text" id="captcha-input" placeholder="Введите код">
+        <div class="error" id="error-message"></div>
+    </div>
+</div>
+
+<!-- Панель регистрации -->
+<div class="registration" style="display: none;">
+    <form id="login-form" onsubmit="submitForm(event)">
+        <h2>Вход в личный аккаунт</h2>
+        <label for="username">Имя пользователя:</label><br>
+        <input type="text" id="username" name="username" required><br>
+        <label for="age">Возраст:</label><br>
+        <input type="number" id="age" name="age" required><br>
+        <label for="photo">Фото:</label><br>
+        <input type="file" id="photo" name="photo" accept="image/*"><br><br>
+        <label for="password">Пароль:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="Войти">
+    </form>
+</div>
+
+<script src="captcha.js"></script>
+<script src="user.js"></script>
+<script src="target.js"></script>
+    <header>
+</header> 
+<main>
+    <div id="intro">
+        <img src="https://i.pinimg.com/originals/48/fd/fb/48fdfb2d8a6984b4258445d571fdb3d6.gif" alt="Гифка" />
+        <style>
+            .intro{
+                background-color: black;
+            }
+        </style>  
+        <div class="intro-text">
+            <h1>Добро пожаловать на сайт о реках!</h1>
+            <p>Погружайтесь в мир водных артерий планеты.</p>
+        </div>
+    </div>
+    <div class="between"></div>
+    <article>
+    <h2 class="article_head">Реки, которые стоит узнать</h2>
+    <div class="articles"> 
+        <div class="slide">
+            <div class="item" style="background-image: url(https://интересный.com/wp-content/uploads/2019/09/interesnye-fakty-o-reke-nil-1-1024x550.jpg)">
+                <div class="content">
+                   <div class="name"><h2>Нил</h2></div>
+                    <div class="des">Река Нил носит называние «голубой веной» Африки. Всего 6853 километра, по берегам - великолепные тропические леса, состоящие из кустов кофе, чёрных деревьев, банановых деревьев, бамбука. </div>
+                    <button onclick="document.location='map.html'">Читать далее...</button>
+                </div>
+            </div>
+            <div class="item" style="background-image: url(https://kulturologia.ru/files/u29141/2914145287.jpg)">
+                <div class="content">
+                    <div class="name"><h2>Амазонка</h2></div>
+                    <div class="des">Амазонка и её притоки образуют одну из крупнейших в мире систем внутренних водных путей общей длиной более 25 тысяч км. Большая часть бассейна Амазонки принадлежит Бразилии, юго-западные и западные районы — Боливии, Перу, Эквадору и Колумбии.</div>
+                    <button onclick="document.location='map.html'">Читать далее...</button>
+                </div>
+           </div>
+           <div class="item" style="background-image: url(http://surl.li/khkmdh)">
+                <div class="content">
+                    <div class="name"><h2>Янцзы</h2></div>
+                    <div class="des">Крупнейшая река Китая, третья по длине река в мире. Занимает первое место в Китае как по длине, так и по площади водосборного бассейна и расходу воды.</div>
+                    <button onclick="document.location='map.html'">Читать далее...</button>
+                </div>
+            </div>
+            <div class="item" style="background-image: url(https://s9.travelask.ru/system/images/files/001/457/212/wysiwyg_jpg/tnciowa_mississippiriver_4000x2200.jpg?1613426105)">
+                <div class="content">
+                    <div class="name"><h2>Миссисипи</h2></div>
+                    <div class="des">Главная река крупнейшей речной системы в Северной Америке. Протекает исключительно по территории Соединённых Штатов Америки, хотя её бассейн распространяется и на Канаду.</div>
+                    <button onclick="document.location='map.html'">Читать далее...</button>
+                </div>
+            </div>
+            <div class="item" style="background-image: url(https://avatars.mds.yandex.net/get-vertis-journal/3911415/wayne_ooone-wang-QFOJyx8zMn8-unsplash.jpg_1709553033289/1098x1098)">
+                <div class="content">
+                    <div class="name"><h2>Хуанхэ</h2></div>
+                    <div class="des">Река в Китае, одна из крупнейших по протяжённости рек Азии. Бассейн Хуанхэ считается местом формирования и становления китайского этноса наравне с Янцзы.</div>
+                    <button onclick="document.location='map.html'">Читать далее...</button>
+                </div>
+            </div>
+        </div>
+        <div class="button">
+            <button class="prev"></button>
+            <button class="next"></button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</article>
+</main> 
+    <footer class="footer" link="white" id="contact" link="black"><address>
+        <div class="footer-container">
+        <div class="footer_about_us">
+            <h2>Про нас</h2>
+            <p>Добро пожаловать на сайт, посвященный величайшим рекам мира! Здесь вы найдете информацию о самых известных и впечатляющих водных артериях нашей планеты. От истоков до устья, мы расскажем вам о богатой истории, уникальной природе и культурном значении этих рек. Исследуйте величественные реки, познакомьтесь с их обитателями, узнайте о том, как они влияют на жизнь людей и экосистемы, и вдохновляйтесь их силой и красотой!</p>
+        </div>
+        <div class="footer_quick_links">
+            <h2>Быстрые ссылки</h2>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="map.html">Карта</a></li>
+                <li><a href="gellery.html">Галерея</a></li>
+                <li><a href="user.html">Страница пользователя</a></li>    
+                <li><a href="liked_gellery.html">Понравившиеся фотографии</a></li>  
+            </ul>  
+        </div>
+    <div class="contacts"><h2 id="end">Связаться с нами: </h2>
+    <a href="tel:01234567890">Позвонить/</a>
+    <a href="mailto:sendemail@gmail.com">Написать письмо</a>
+    <div class="social-buttons">
+        <a href="#" class="btn facebook">Facebook</a>
+        <a href="#" class="btn twitter">Twitter</a>
+        <a href="#" class="btn instagram">Instagram</a>
+    </div></div></div>
+</address></footer>
+<script src="script.js"></script>
+<script src="scroll.js"></script>
+</body>
+</html>
