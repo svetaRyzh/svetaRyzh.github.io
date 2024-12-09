@@ -16,7 +16,6 @@ function submitForm(event) {
     const photoInput = document.getElementById("photo");
     const password = document.getElementById("password").value;
 
-    // Проверяем, загрузил ли пользователь фото
     let photo = null;
     if (photoInput.files.length > 0) {
         // Конвертируем изображение в base64
@@ -87,9 +86,12 @@ function loadUserData() {
     document.getElementById("user-birthdate").textContent = user.birthdate;
 
     // Отображение фото, если оно загружено
+    const userPhoto = document.getElementById("user-photo");
     if (user.photo) {
-        const userPhoto = document.getElementById("user-photo");
-        userPhoto.src = user.photo; // Присваиваем base64 строку как источник изображения
+        userPhoto.src = user.photo;
+        userPhoto.style.display = "block";
+    } else {
+        userPhoto.src = "https://i.pinimg.com/736x/6f/69/79/6f69794f67caf74c5a59db5043560bb8.jpg"; // Замените "default.jpg" на путь к вашему изображению по умолчанию
         userPhoto.style.display = "block";
     }
 }
@@ -97,37 +99,46 @@ function loadUserData() {
 if (window.location.pathname.includes("user.html")) {
     document.addEventListener("DOMContentLoaded", loadUserData);
 }
-
-// Функция для отображения данных на главной странице
 function displayUserOnMainPage() {
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (user) {
-        const loginButton = document.querySelector(".prompt");
+        const loginButton = document.querySelector(".prompt"); // Селектор кнопки входа
         if (loginButton) {
-            loginButton.style.display = "none";
+            loginButton.style.display = "none"; // Скрываем кнопку входа
         }
 
-        const userInfoBlock = document.getElementById("user-info");
+        const userInfoBlock = document.getElementById("user-info"); // ID блока информации о пользователе
         if (userInfoBlock) {
-            const userPhoto = document.getElementById("user-photo");
-            const userName = document.getElementById("user-name");
+            const userPhoto = document.getElementById("user-photo"); // ID элемента для фото
+            const userName = document.getElementById("user-name"); // ID элемента для имени
 
             if (user.photo && userPhoto) {
                 userPhoto.src = user.photo;
                 userPhoto.alt = "Фото пользователя";
+                userPhoto.style.display = "block"; // Отображаем фото
+            } else if (userPhoto) {
+                userPhoto.src = "https://i.pinimg.com/736x/6f/69/79/6f69794f67caf74c5a59db5043560bb8.jpg"; // Изображение по умолчанию
+                userPhoto.style.display = "block"; // Отображаем фото по умолчанию
             }
 
             if (user.username && userName) {
-                userName.textContent = `Привет, ${user.username}!`;
+                userName.textContent = `Привет, ${user.username}!`; // Используем шаблонные строки
             }
 
-            userInfoBlock.style.display = "flex";
+            userInfoBlock.style.display = "block"; // Отображаем блок информации
         }
     }
 }
 
-// Функция для обновления данных пользователя
+
+if (window.location.pathname.includes("user.html")) {
+    document.addEventListener("DOMContentLoaded", loadUserData);
+} else if (window.location.pathname.includes("index.html")) {
+    document.addEventListener("DOMContentLoaded", displayUserOnMainPage);
+}
+
+
 function showNotification(message) {
     const notification = document.getElementById("notification");
     notification.textContent = message;
