@@ -91,7 +91,7 @@ function loadUserData() {
         userPhoto.src = user.photo;
         userPhoto.style.display = "block";
     } else {
-        userPhoto.src = "https://i.pinimg.com/736x/6f/69/79/6f69794f67caf74c5a59db5043560bb8.jpg"; // Замените "default.jpg" на путь к вашему изображению по умолчанию
+        userPhoto.src = "https://i.pinimg.com/736x/6f/69/79/6f69794f67caf74c5a59db5043560bb8.jpg"; 
         userPhoto.style.display = "block";
     }
 }
